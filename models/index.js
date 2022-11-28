@@ -15,8 +15,8 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-fs
-  .readdirSync(__dirname)
+
+  fs.readdirSync(__dirname)
   .filter(file => {
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
   })
@@ -34,10 +34,14 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.Categorie=require("./categorie.model.js")(sequelize,Sequelize);
 db.Bonplans=require("./bonplans.model.js")(sequelize,Sequelize);
+
 db.evenement=require("./evenement.model.js")(sequelize,Sequelize);
 db.panier=require("./panier.model.js")(sequelize,Sequelize);
 db.Bonplans.belongsTo(db.Categorie);
 db.Categorie.hasMany(db.Bonplans)
 db.evenement.hasMany(db.panier);
 db.panier.belongsTo(db.evenement);
+db.utilisateur =require("./utilisateur.model.js")(sequelize,Sequelize);
+
+
 module.exports = db;
