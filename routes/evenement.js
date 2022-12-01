@@ -6,6 +6,7 @@ var router = express.Router();
 
 router.get('/affichier/:Idevent', affichierevent);
 router.get('/af', affichiertevent);
+
 router.post('/add',validateevent,ajouterevent );
 router.put('/update/:Idevent', validateevent,modifierevent);
 router.delete('/delet/:Idevent', deleteevent);

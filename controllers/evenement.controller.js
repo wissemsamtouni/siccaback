@@ -37,19 +37,19 @@ const affichierevent = async (req, res) => {
 };
 
 //upload image
-const upload = async (req, res) => {
-  try {
-    if (req.file == undefined) {
+// const upload = async (req, res) => {
+//   try {
+//     if (req.file == undefined) {
 
-      return res.send(`You must select a file.`);
-    }
+//       return res.send(`You must select a file.`);
+//     }
 
-    res.send(`File has been uploaded.`);
-  } catch (error) {
-    console.log(error);
-    return res.send(`Error when trying upload image: ${error}`);
-  }
-};
+//     res.send(`File has been uploaded.`);
+//   } catch (error) {
+//     console.log(error);
+//     return res.send(`Error when trying upload image: ${error}`);
+//   }
+// };
 
 //update event
 // const modifierevent = async (req, res) => {
@@ -174,6 +174,7 @@ module.exports = {
   modifierevent,
   deleteevent,
   affichiertevent,
-  filtrageevent
+  filtrageevent,
+
   
 };

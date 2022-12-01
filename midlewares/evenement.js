@@ -18,5 +18,6 @@ const validateevent = async (req, res, next) => {
     });
   }
 };
+
  
 module.exports = validateevent;

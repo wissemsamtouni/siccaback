@@ -20,6 +20,9 @@ module.exports = (sequelize, Sequelize) => {
       disponibilite: {
         type: Sequelize.BOOLEAN,
       },
+      prixticket: { 
+        type: Sequelize.INTEGER,  
+      },
     
       image: {
         type: Sequelize.STRING,

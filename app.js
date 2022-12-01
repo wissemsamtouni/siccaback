@@ -11,7 +11,9 @@ var usersRouter = require('./routes/users');
 var categorieRouter = require('./routes/categorie');
 const eventRouter =  require('./routes/evenement');
 const utilisateurRouter=require('./routes/utilisateur')
-
+//const reserRouter =  require('./routes/reservation');
+const reservationRouter =  require('./routes/reservation');
+const panierRouter =  require('./routes/panier');
 var app = express();
 db.sequelize
   .sync()
@@ -34,7 +36,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categorie', categorieRouter);
-
+//app.use('/reservation', reserRouter);
+app.use('/panier', panierRouter);
+app.use('/reservation', reservationRouter);
 app.use('/event',eventRouter);
 app.use('/utilisateurs', utilisateurRouter);
 

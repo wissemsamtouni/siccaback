@@ -1,8 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
     const reservation = sequelize.define("reservation", {
-      nbrticket: {
+      quantite: {
         type: Sequelize.STRING,
       },
+      prixticket: {
+        type: Sequelize.INTEGER,
+      },
+        
     
       
      
