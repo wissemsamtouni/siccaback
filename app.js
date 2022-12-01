@@ -1,16 +1,17 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const http=require("http");
-const db =require('./models')
+const db =require('./models');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categorieRouter = require('./routes/categorie');
 const eventRouter =  require('./routes/evenement');
-const utilisateurRouter=require('./routes/utilisateur')
+const utilisateurRouter=require('./routes/utilisateur');
+const cookieParser = require('cookie-parser');
 
 var app = express();
 db.sequelize
@@ -37,6 +38,11 @@ app.use('/categorie', categorieRouter);
 
 app.use('/event',eventRouter);
 app.use('/utilisateurs', utilisateurRouter);
+app.use(cookieParser());
+app.use(cors({
+  credentials:true,
+  origin:["http://localhost:3000","http://localhost:8080","http://localhost:5000","http://localhost:4200"]
+}));
 
 
 // catch 404 and forward to error handler
