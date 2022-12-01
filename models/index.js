@@ -38,7 +38,7 @@ db.Bonplans=require("./bonplans.model.js")(sequelize,Sequelize);
 db.evenement=require("./evenement.model.js")(sequelize,Sequelize);
 db.panier=require("./panier.model.js")(sequelize,Sequelize);
 db.Bonplans.belongsTo(db.Categorie);
-db.Categorie.hasMany(db.Bonplans)
+db.Categorie.hasMany(db.Bonplans);
 db.evenement.hasMany(db.panier);
 db.panier.belongsTo(db.evenement);
 // db.promo.hasMany(db.evenement);
