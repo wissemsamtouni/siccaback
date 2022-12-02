@@ -1,11 +1,12 @@
 const {evenement } = require("../models");
 
 const ajouterevent = async (req, res, next) => {
-  const {  titre, discription, datedebut, datefin,nbrticket,disponibilite,image } = req.body;
+  const {  titre, discription, datedebut, datefin,nbrticket,image } = req.body;
   console.log(req.body)
+  const {file}  = req;
   try {
     const ajouterevent = await evenement.create({
-      titre, discription, datedebut, datefin,nbrticket,disponibilite,image 
+      titre, discription, datedebut, datefin,nbrticket,image:file.path 
     });
     res.status(201).json({
         ajouterevent,

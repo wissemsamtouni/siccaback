@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -14,7 +15,12 @@ const utilisateurRouter=require('./routes/utilisateur')
 //const reserRouter =  require('./routes/reservation');
 const reservationRouter =  require('./routes/reservation');
 const panierRouter =  require('./routes/panier');
+const { use } = require('./routes/index');
 var app = express();
+app.use(cors({
+  origin: ['http://localhost:4200'],
+  credentials: true
+}))
 db.sequelize
   .sync()
   .then(() => {
@@ -24,14 +30,13 @@ db.sequelize
     console.log("Failed to sync db: " + err.message);
   });
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -55,8 +60,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+res.json({error:err})
 });
 const server =http.createServer(app);
 server.listen(5000,()=>console.log("bien venus"));
