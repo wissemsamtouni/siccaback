@@ -14,8 +14,14 @@ const utilisateurRouter=require('./routes/utilisateur');
 const cookieParser = require('cookie-parser');
 
 var app = express();
+app.use(cors ({
+    origin: 'http://localhost:4200',
+    credentials: true,
+
+}));
+
 db.sequelize
-  .sync()
+  .sync({ force: false })
   .then(() => {
     console.log("Synced db.");
   })
@@ -39,10 +45,6 @@ app.use('/categorie', categorieRouter);
 app.use('/event',eventRouter);
 app.use('/utilisateurs', utilisateurRouter);
 app.use(cookieParser());
-app.use(cors({
-  credentials:true,
-  origin:["http://localhost:3000","http://localhost:8080","http://localhost:5000","http://localhost:4200"]
-}));
 
 
 // catch 404 and forward to error handler
