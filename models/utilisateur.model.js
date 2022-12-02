@@ -49,7 +49,8 @@ module.exports = (Sequelize, DataTypes) => {
         },
         etat: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true,
+            defaultValue: "1"
         }
 
 

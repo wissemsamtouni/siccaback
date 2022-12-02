@@ -3,34 +3,28 @@ const {utilisateur} = require('../../models')
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const login = async  (req, res, next)=> {
-    const user = await utilisateur.findOne({
-    where:{
-        login:req.body.login
+const login = async  (req, res, next) => {
+    try {
+        const {login, mdp} = req.body;
+        const user = await utilisateur.findOne({where: {login: login}});
+        if (!user) {
+            return res.status(404).json({error: "login ou mot de passe incorrect"});
+        }
+        const validPassword = await bcrypt.compare(mdp, user.mdp);
+        if (!validPassword) {
+            return res.status(400).json({error: "login ou mot de passe incorrect"});
+        }
+        const token = jwt.sign({id_utilisateur: user.id_utilisateur}, 'secret', {
+            expiresIn: 86400 // 24 hours
+        });
+        res.cookie('jwt', token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000})
+        res.status(200).json({token: token});
+    } catch (error) {
+        return res.status(500).json({error: error.message});
     }
-})
-    console.log(user)
-    if(!user){
-        return res.status(404).send({
-            message:"user noy found"
-        })
-    }
-    const isMatch = await bcrypt.compare(req.body.mdp,user.mdp)
-    console.log(isMatch)
-    if(!isMatch){
-        return res.status(400).send({
-            message:"invalid credentiel"
-        })
-    }
-    const jwtToken =jwt.sign({_id:user.id_utilisateur},"secret")
-    res.cookie("jwt",jwtToken, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000
-    })
-    res.send({
-        message: 'success'
-    })
+
 }
+
 
 
 
