@@ -2,10 +2,10 @@ var createError = require('http-errors');
 var express = require('express');
 const cors = require('cors');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const http=require("http");
-const db =require('./models')
+const db =require('./models');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -17,12 +17,14 @@ const reservationRouter =  require('./routes/reservation');
 const panierRouter =  require('./routes/panier');
 const { use } = require('./routes/index');
 var app = express();
-app.use(cors({
-  origin: ['http://localhost:4200'],
-  credentials: true
-}))
+app.use(cors ({
+    origin: 'http://localhost:4200',
+    credentials: true,
+
+}));
+
 db.sequelize
-  .sync()
+  .sync({ force: false })
   .then(() => {
     console.log("Synced db.");
   })
@@ -46,6 +48,7 @@ app.use('/panier', panierRouter);
 app.use('/reservation', reservationRouter);
 app.use('/event',eventRouter);
 app.use('/utilisateurs', utilisateurRouter);
+app.use(cookieParser());
 
 
 // catch 404 and forward to error handler
