@@ -1,7 +1,6 @@
 var express = require('express');
 const { ajouterevent, affichierevent,modifierevent,deleteevent,affichiertevent,filtrageevent } = require('../controllers/evenement.controller');
 const validateevent = require('../midlewares/evenement');
-
 var router = express.Router();
 const multer=require('multer');
 // configure multer

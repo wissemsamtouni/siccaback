@@ -1,12 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
-const cors = require('cors');
+
 var path = require('path');
 var logger = require('morgan');
 const http=require("http");
 const db =require('./models');
-const cors = require('cors');
 
+const cookieParser = require('cookie-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categorieRouter = require('./routes/categorie');
@@ -16,9 +16,10 @@ const utilisateurRouter=require('./routes/utilisateur')
 const reservationRouter =  require('./routes/reservation');
 const panierRouter =  require('./routes/panier');
 const { use } = require('./routes/index');
+var cors = require('cors');
 var app = express();
 app.use(cors ({
-    origin: 'http://localhost:4200',
+    origin: ['http://localhost:4200', 'http://localhost:5000'],
     credentials: true,
 
 }));
@@ -48,7 +49,6 @@ app.use('/panier', panierRouter);
 app.use('/reservation', reservationRouter);
 app.use('/event',eventRouter);
 app.use('/utilisateurs', utilisateurRouter);
-app.use(cookieParser());
 
 
 // catch 404 and forward to error handler
