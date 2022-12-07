@@ -1,11 +1,11 @@
 const {evenement } = require("../models");
 
 const ajouterevent = async (req, res, next) => {
-  const {  titre, discription, datedebut, datefin,nbrticket,disponibilite,image } = req.body;
+  const {  titre, discription, datedebut, datefin,nbrticket,prixticket } = req.body;
   console.log(req.body)
   try {
     const ajouterevent = await evenement.create({
-      titre, discription, datedebut, datefin,nbrticket,disponibilite,image 
+      titre, discription, datedebut, datefin,nbrticket,prixticket,image:req.file.path 
     });
     res.status(201).json({
         ajouterevent,
@@ -37,19 +37,19 @@ const affichierevent = async (req, res) => {
 };
 
 //upload image
-const upload = async (req, res) => {
-  try {
-    if (req.file == undefined) {
+// const upload = async (req, res) => {
+//   try {
+//     if (req.file == undefined) {
 
-      return res.send(`You must select a file.`);
-    }
+//       return res.send(`You must select a file.`);
+//     }
 
-    res.send(`File has been uploaded.`);
-  } catch (error) {
-    console.log(error);
-    return res.send(`Error when trying upload image: ${error}`);
-  }
-};
+//     res.send(`File has been uploaded.`);
+//   } catch (error) {
+//     console.log(error);
+//     return res.send(`Error when trying upload image: ${error}`);
+//   }
+// };
 
 //update event
 // const modifierevent = async (req, res) => {
@@ -69,6 +69,7 @@ const upload = async (req, res) => {
 //   }
 // };
 const modifierevent = async (req, res) => {
+  console.log(req.body)
   try {
     const { Idevent } = req.params;
     const [updated] = await evenement.update(req.body, {
@@ -76,19 +77,19 @@ const modifierevent = async (req, res) => {
     });
     if (updated) {
       const modifierevent = await evenement.findOne({ where: { id: Idevent } });
-      res.status(200).json({
+      return res.status(200).json({
         even: modifierevent,
       });
     }
-    res.status(401).json({
+    return res.status(401).json({
      "message":"message"
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error: error.message,
       
     });
-    console.log(error);
+   
   }
 };
 
@@ -164,7 +165,22 @@ const filtrageevent = async (req, res) =>{
 }
   
 
+const findbytitre = async (req , res , next ) => {
+  const titre = req.query.titre;
+  var condition = titre ? {tritre: {[Op.like]: `%${titre}%`}} : null;
 
+  evenement.findAll({where: condition})
+      .then(data => {
+          res.send([...data]);
+      })
+      .catch(err => {
+          res.status(500).send({
+              message:
+                  err.message || "Some error occurred while retrieving event!" });
+
+      })
+
+};
 
 
   
@@ -174,6 +190,7 @@ module.exports = {
   modifierevent,
   deleteevent,
   affichiertevent,
-  filtrageevent
+  filtrageevent,
+  findbytitre
   
 };
