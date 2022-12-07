@@ -1,12 +1,10 @@
 var express = require('express');
-const {createpanier,affichertpanier,afficherIdpanier,deletereservation } = require('../controllers/panier.controller');
+const {deletePanier,createPanier,getOnePanier, getPanier} = require('../controllers/panier.controller');
 var router = express.Router();
-
-router.post('/addP/:idevent', createpanier);
-router.get('/afficherP', affichertpanier);
-router.get('/affichidpan/:idpanier', afficherIdpanier);
-
-router.delete('/deleteR/:idreservation', deletereservation);
+router.delete('/deleteR/:idLignePanier/:panierId', deletePanier);
+router.post('/addR/:id', createPanier);
+router.get('/getR', getOnePanier);
+router.get('/getp', getPanier);
 
 
 module.exports = router;

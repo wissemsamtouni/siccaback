@@ -1,5 +1,5 @@
 var express = require('express');
-const { ajouterevent, affichierevent,modifierevent,deleteevent,affichiertevent,filtrageevent } = require('../controllers/evenement.controller');
+const { ajouterevent, affichierevent,modifierevent,deleteevent,affichiertevent,filtrageevent , findbytitre} = require('../controllers/evenement.controller');
 const validateevent = require('../midlewares/evenement');
 var router = express.Router();
 const multer=require('multer');
@@ -15,13 +15,14 @@ const storage = multer.diskStorage({
   })
   
 const upload = multer({ storage }).single('image');
+router.post('/add',upload,ajouterevent );
 router.get('/affichier/:Idevent', affichierevent);
 router.get('/af', affichiertevent);
+//router.get( '/search?', findbytitre);
 
-router.post('/add',upload,ajouterevent );
-router.put('/update/:Idevent', validateevent,modifierevent);
+router.put('/update/:Idevent',modifierevent);
 router.delete('/delet/:Idevent', deleteevent);
 
  //router.get('/filtrage/:datedebut/:titre',filtrageevent);
- router.get('/filtrage/:titre',filtrageevent);
+ //router.get('/filtrage/search?',filtrageevent);
 module.exports = router;

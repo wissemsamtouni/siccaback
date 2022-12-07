@@ -37,15 +37,24 @@ db.Bonplans=require("./bonplans.model.js")(sequelize,Sequelize);
 db.reservation=require("./reservation.model.js")(sequelize,Sequelize);
 db.evenement=require("./evenement.model.js")(sequelize,Sequelize);
 db.panier=require("./panier.model.js")(sequelize,Sequelize);
+db.utilisateur =require("./utilisateur.model.js")(sequelize,Sequelize);
+
 db.Bonplans.belongsTo(db.Categorie);
 db.Categorie.hasMany(db.Bonplans)
-db.evenement.belongsTo(db.reservation);
+
+
+db.evenement.hasMany(db.reservation);
 db.reservation.belongsTo(db.evenement);
+
 db.reservation.belongsTo(db.panier);
 db.panier.hasMany(db.reservation);
-db.panier.belongsTo(db.utilisateur);
-db.utilisateur.belongsTo(db.panier);
-db.utilisateur =require("./utilisateur.model.js")(sequelize,Sequelize);
+
+db.panier.belongsTo(db.utilisateur/* , {
+ foreignKey: 'utilisateurIdUtilisateur'
+}*/);
+db.utilisateur.hasOne(db.panier /* , {
+  foreignKey: 'utilisateurIdUtilisateur'
+}*/);
 
 
 module.exports = db;
