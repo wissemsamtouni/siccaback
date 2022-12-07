@@ -2,6 +2,7 @@ const express = require("express");
 const {utilisateur} = require('../../models')
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const {where} = require("sequelize");
 const router = express.Router();
 const login = async  (req, res, next) => {
     try {
@@ -21,7 +22,8 @@ const login = async  (req, res, next) => {
         const claims = jwt.verify(token, 'secret');
         const x =claims.role;
         const y =claims.etat;
-        res.status(200).json({message:"user connected",x,y});
+        const n =claims.nom;
+        res.status(200).json({message:"user connected",x,y,n});
     } catch (error) {
         return res.status(500).json({error: error.message});
     }
@@ -44,12 +46,19 @@ const user = async (req, res, next) => {
                     message: 'unauthenticated'
                 })
             }
+             console.log(claims)
 
-            const user = await utilisateur.findOne({id: claims.id_utilisateur})
+            const user = await utilisateur.findOne({
+            where:
+                {id_utilisateur: claims.id_utilisateur}
 
+        })
+            console.log(user)
             const {mdp, ...data} = await user.toJSON()
+            console.log(data)
 
             res.send(data);
+
         } catch (err) {
             return res.status(401).send({
                 message: 'inconnected'
