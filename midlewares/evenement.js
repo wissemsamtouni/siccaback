@@ -8,7 +8,7 @@ const validateevent = async (req, res, next) => {
         datefin: yup.string().required(),
         nbrticket: yup.number().required(),
         disponibilite: yup.boolean().required(),
-        image: yup.string().required(),
+       
     });  
     await schema.validate(req.body, { abortEarly: false });
     next();
@@ -18,5 +18,6 @@ const validateevent = async (req, res, next) => {
     });
   }
 };
+
  
 module.exports = validateevent;
