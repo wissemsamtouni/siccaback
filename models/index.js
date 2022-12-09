@@ -40,7 +40,13 @@ db.panier=require("./panier.model.js")(sequelize,Sequelize);
 db.utilisateur =require("./utilisateur.model.js")(sequelize,Sequelize);
 
 db.Bonplans.belongsTo(db.Categorie);
-db.Categorie.hasMany(db.Bonplans)
+db.Categorie.hasMany(db.Bonplans);
+db.evenement.hasMany(db.panier);
+db.panier.belongsTo(db.evenement);
+// db.promo.hasMany(db.evenement);
+// db.evenement.belongsTo(db.promo);
+
+
 
 
 db.evenement.hasMany(db.reservation);

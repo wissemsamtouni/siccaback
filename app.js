@@ -5,11 +5,12 @@ var path = require('path');
 var logger = require('morgan');
 const http=require("http");
 const db =require('./models');
-
+const multer=require('multer');
 const cookieParser = require('cookie-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categorieRouter = require('./routes/categorie');
+var bonplansRouter = require('./routes/bonplans');
 const eventRouter =  require('./routes/evenement');
 const utilisateurRouter=require('./routes/utilisateur')
 //const reserRouter =  require('./routes/reservation');
@@ -40,18 +41,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bonplans', bonplansRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categorie', categorieRouter);
-//app.use('/reservation', reserRouter);
 app.use('/panier', panierRouter);
 app.use('/reservation', reservationRouter);
 app.use('/event',eventRouter);
 app.use('/utilisateurs', utilisateurRouter);
-
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
