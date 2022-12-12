@@ -114,6 +114,7 @@ const deleteevent = async (req, res) => {
   }
 };
 
+
 const affichiertevent= async (req, res) => {
   try {
     const event = await evenement.findAll();

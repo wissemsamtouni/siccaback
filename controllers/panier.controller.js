@@ -6,7 +6,7 @@ const createPanier = async (req, res, next) => {
 
     try {
 
-        const ifexist = await panier.findOne({where: {utilisateurIdUtilisateur: 1}});
+        const ifexist = await panier.findOne({where: {utilisateurIdUtilisateur: req.params.iduser}});
         //const newEvent = await evenement.findOne({where:{id:req.params.id,
             //}});
         // const newRes = await reservation.findOne({where:{reservationId:req.params.reservationId,}}) 
@@ -18,7 +18,7 @@ const createPanier = async (req, res, next) => {
             const newPanier = await panier.create({
                 prixtotal: prixticket * quantite,
 
-                utilisateurIdUtilisateur: 1,
+                utilisateurIdUtilisateur: req.params.iduser,
 
             }).catch(err => console.log(err))
 
@@ -30,7 +30,7 @@ const createPanier = async (req, res, next) => {
                     prixticket: req.body.prixticket,
                     quantite: req.body.quantite,
                     panierId: newPanier.id,
-                    EvenementId: req.params.id,
+                    EvenementId: req.params.idevent,
 
                     
 
@@ -42,9 +42,9 @@ const createPanier = async (req, res, next) => {
 
             }
         }
-//mawjouda lpanier
+//panier existe
         else {
-            const idevent = req.params.id
+            const idevent = req.params.idevent
           
             const valid = await reservation.findOne({where: {EvenementId: idevent}});
 
@@ -54,7 +54,7 @@ const createPanier = async (req, res, next) => {
                     prixticket: req.body.prixticket,
                     quantite: req.body.quantite,
                     panierId: ifexist.id,
-                    EvenementId: req.params.id,
+                    EvenementId: req.params.idevent,
                    
 
                 })   
@@ -82,7 +82,7 @@ const createPanier = async (req, res, next) => {
 const deletePanier = async (req, res) => {
 
     try {
-        const panierofuserconected = await panier.findOne({where: {utilisateurIdUtilisateur: 1}});
+        const panierofuserconected = await panier.findOne({where: {utilisateurIdUtilisateur: req.params.iduser}});
 
         if (!panierofuserconected) {
 
@@ -183,7 +183,7 @@ const getOnePanier = async (req, res) => {
         }
     };
 
-
+   
 
 module.exports = { 
     createPanier,
