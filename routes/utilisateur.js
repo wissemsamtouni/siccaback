@@ -4,6 +4,7 @@ const validate = require('../midlewares/validator');
 const {login, user, logout} = require("../controllers/authentification/login");
 const{banUser}=require("../controllers/backoffice/tableuser");
 const {registerUser} =require("../controllers/authentification/registr")
+const {sendLink, passwordReset} = require("../controllers/authentification/forgetPasswordController");
 var router = express.Router();
 
 router.post('/createUser',createUser);
@@ -18,6 +19,8 @@ router.get('/afficheruser',user); //
 router.post('/logout',logout);
 router.put('/banner/:id',banUser);
 router.put('/resetpassword',changePassword);
+router.post ("/sendlink",sendLink);
+router.post('/password_reset/:userId/:token',passwordReset)
 
 
 
