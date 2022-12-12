@@ -6,10 +6,14 @@ var logger = require('morgan');
 const http=require("http");
 const db =require('./models');
 db.sequelize.options.logging = false;
+const multer=require('multer');
 const cookieParser = require('cookie-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const materielRouter=require('./routes/materiel');
+const promoRouter=require('./routes/promo');
 var categorieRouter = require('./routes/categorie');
+var bonplansRouter = require('./routes/bonplans');
 const eventRouter =  require('./routes/evenement');
 const utilisateurRouter=require('./routes/utilisateur')
 //const reserRouter =  require('./routes/reservation');
@@ -34,11 +38,11 @@ app.use(cors ({
 }));
 
 db.sequelize
-  //.sync({forse:true})
-  .sync()
-  .then(() => {
-    console.log("Synced db.");
-  })
+  .sync({forse:true})
+  // .sync()
+  // .then(() => {
+  //   console.log("Synced db.");
+  // })
   .catch((err) => {
     console.log("Failed to sync db: " + err.message);
   });
@@ -49,17 +53,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bonplans', bonplansRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categorie', categorieRouter);
-//app.use('/reservation', reserRouter);
 app.use('/panier', panierRouter);
 app.use('/reservation', reservationRouter);
 app.use('/event',eventRouter);
 app.use('/utilisateurs', utilisateurRouter);
-
 app.post('/checkout', async(req, res) => {
   try {
       console.log(req.body);
@@ -95,7 +97,8 @@ app.post('/checkout', async(req, res) => {
     return false;
   }
 })
-
+app.use('/materiel', materielRouter);
+app.use('/promo', promoRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
