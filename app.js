@@ -9,6 +9,8 @@ const db =require('./models');
 const cookieParser = require('cookie-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const materielRouter=require('./routes/materiel');
+const promoRouter=require('./routes/promo');
 var categorieRouter = require('./routes/categorie');
 const eventRouter =  require('./routes/evenement');
 const utilisateurRouter=require('./routes/utilisateur')
@@ -25,11 +27,11 @@ app.use(cors ({
 }));
 
 db.sequelize
-  //.sync({forse:true})
-  .sync()
-  .then(() => {
-    console.log("Synced db.");
-  })
+  .sync({forse:true})
+  // .sync()
+  // .then(() => {
+  //   console.log("Synced db.");
+  // })
   .catch((err) => {
     console.log("Failed to sync db: " + err.message);
   });
@@ -50,6 +52,8 @@ app.use('/panier', panierRouter);
 app.use('/reservation', reservationRouter);
 app.use('/event',eventRouter);
 app.use('/utilisateurs', utilisateurRouter);
+app.use('/materiel', materielRouter);
+app.use('/promo', promoRouter);
 
 
 // catch 404 and forward to error handler
