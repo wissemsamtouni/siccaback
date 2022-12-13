@@ -17,12 +17,14 @@ module.exports = (sequelize, Sequelize) => {
       nbrticket: {
         type: Sequelize.INTEGER,
       },
-      disponibilite: {
-        type: Sequelize.BOOLEAN,
+   
+      prixticket: { 
+        type: Sequelize.INTEGER,  
       },
     
       image: {
         type: Sequelize.STRING,
+        allawNull: true,
       },
     });
   

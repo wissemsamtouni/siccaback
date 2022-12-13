@@ -9,9 +9,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
     },
   
-    quantitetotal: {
-        type: Sequelize.INTEGER,
-      },
       
     });
   

@@ -2,38 +2,31 @@ const {utilisateur} = require("../../models");
 const bcrypt = require('bcrypt');
 const express = require("express");
 const router = express.Router();
-const addUser = async (req, res, next) => {
+const registerUser = async (req, res, next) => {
     try {
-        const {nom, prenom, mail, login, mdp, tel, role, adresse, code, etat } = req.body;
-        const ifLoginExist = await utilisateur.findOne({where: {login: login}});
+        const {nom, prenom, mail, login, tel, adresse } = req.body;
+        // hash password before saving in database
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.mdp, salt);
 
+        const ifemailexist = await utilisateur.findOne({where: {login: login , mail: mail}});
+        if (ifemailexist) {
+            throw new Error("login ou maill deja exist");
+            return res.status(400).json({error: "login deja exist"});
 
-        if (ifLoginExist) {
-            throw new Error("login deja exist");
         }
-        const salt =await bcrypt.genSalt(10)
-        const hashedPassword =await bcrypt.hash(mdp,salt)
-
-        const newUser = await utilisateur.create(
-            {   nom,
-                prenom,
-                mail,
-                login,
-                mdp,
-                tel,
-                role,
-                adresse,
-                code,
-                etat
-             });
-        newUser.mdp=hashedPassword;
-        newUser.save();
-
+        const newUser = await utilisateur.create({nom, prenom, mail, login, mdp : hashedPassword, tel, role:'client', adresse  });
         return res.status(201).json({user: newUser});
+
     } catch (error) {
+      console.log(error)
         return res.status(500).json({error: error.message});
     }
-};
+    }
+
+
+;
 module.exports = {
-    addUser,
+    registerUser
+
 };

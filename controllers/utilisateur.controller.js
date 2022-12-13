@@ -1,4 +1,5 @@
 const { utilisateur } = require("../models");
+const bcrypt = require('bcrypt');
 
 const createUser = async (req, res, next) => {
     try {
@@ -14,26 +15,35 @@ const createUser = async (req, res, next) => {
         return res.status(500).json({error: error.message});
     }
 };
+// console.log("aaa");
+// let User = req.body;
+// console.log(User.idUser);
 
 
 const updateUser = async (req, res) => {
+     let User = req.body;
+ console.log(User.idUser);
+    console.log(User.prenom);
+
+
     try {
-        const {idUser} = req.params;
-        const [updated] = await utilisateur.update(req.body, {
-            where: { id_utilisateur: idUser },
+
+        const [updated] = await utilisateur.update({prenom:User.prenom,nom:User.nom,mail:User.mail,tel:User.tel,login:User.login,adresse:User.adresse}, {
+            where: { id_utilisateur: User.idUser },
         });
-        if (updated) {
-            const updatedUser = await utilisateur.findOne({ where: { id_utilisateur:idUser } });
-            res.status(200).json({
-                utilisateur: updatedUser,
-            });
+        if (!updated) {
+            throw new Error("User not found");
         }
-        throw new Error("User not found");
+        res.status(200).json({
+            updated,
+        });
     } catch (error) {
         res.status(500).json({
             error: error.message,
         });
     }
+
+
 };
 const deleteUser = async (req, res) => {
     try {
@@ -84,7 +94,38 @@ const getUser = async (req, res) => {
         });
     }
 };
+const changePassword = async (req, res) => {
+    try {
 
+        let User = req.body;
+
+        const user = await utilisateur.findOne({
+            where: { id_utilisateur: User.idUser },
+        });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        const isPasswordValid = await bcrypt.compare(User.oldPassword, user.mdp);
+        if (!isPasswordValid) {
+            throw new Error("Password is not valid");
+        }
+        const hashedPassword = await bcrypt.hash(User.newPassword, 10);
+        const updated = await utilisateur.update(
+            { mdp: hashedPassword },
+            { where: { id_utilisateur: User.idUser } }
+        );
+        if (!updated) {
+            throw new Error("User not found");
+        }
+        res.status(200).json({
+            updated,
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: error.message,
+        });
+    }
+}
 
 
 module.exports = {
@@ -92,5 +133,6 @@ module.exports = {
     updateUser,
     deleteUser,
     getAllUsers,
-    getUser
+    getUser,
+    changePassword
 };
