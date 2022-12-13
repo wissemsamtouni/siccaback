@@ -2,11 +2,9 @@ const { Bonplans } = require("../models");
 const { Categorie } = require("../models");
 
 const createBonplans= async (req, res, next) => {
-  const { non_bp, adresse,description,logitude,latitude,horaire,frais,CategorieId,imageSRC } = req.body;
-  const {file}=req;
+  const { non_bp, adresse,description,logitude,latitude,horaire,frais,CategorieId } = req.body;
+  
   try {
-
-    const cat =await Categorie.findOne({where:{nomcat:req.body.nomcat}})
     const createdbpl = await Bonplans.create({
         non_bp, 
         adresse,
@@ -15,8 +13,8 @@ const createBonplans= async (req, res, next) => {
         latitude,
         horaire,
         frais,
-        CategorieId:cat.id,
-        imageSRC:file.path || null
+        CategorieId,
+        imageSRC:req.file.path 
     });
     res.status(201).json({
       createdbpl,

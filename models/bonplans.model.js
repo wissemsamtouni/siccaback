@@ -12,13 +12,13 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
     logitude: {
-      type: Sequelize.STRING,
+      type: Sequelize.DOUBLE,
     },
     latitude: {
-      type: Sequelize.FLOAT,
+      type: Sequelize.DOUBLE,
     },
     horaire: {
-      type: Sequelize.FLOAT,
+      type: Sequelize.STRING,
     },
     frais: {
       type: Sequelize.STRING,
