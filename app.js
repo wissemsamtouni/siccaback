@@ -30,7 +30,6 @@ app.use(bodyparser.json())
 const stripe = require("stripe")("sk_test_51MDASDLtBuFc9f6IcbpcBmHigR1LiuffNI5tVBNKM7Nt8Gv0HUdPNMPK7YY8b6K5wniys87T6pRHOqfrB4jEi7W800vnmuDPbU");
 
 
-
 app.use(cors ({
     origin: ['http://localhost:4200', 'http://localhost:5000'],
     credentials: true,
