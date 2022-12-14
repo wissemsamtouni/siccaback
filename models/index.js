@@ -32,10 +32,11 @@ Object.keys(db).forEach(modelName => {
 });
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.evenement=require("./evenement.model.js")(sequelize,Sequelize);
 db.Categorie=require("./categorie.model.js")(sequelize,Sequelize);
 db.Bonplans=require("./bonplans.model.js")(sequelize,Sequelize);
 db.reservation=require("./reservation.model.js")(sequelize,Sequelize);
-db.evenement=require("./evenement.model.js")(sequelize,Sequelize);
+
 db.panier=require("./panier.model.js")(sequelize,Sequelize);
 db.utilisateur =require("./utilisateur.model.js")(sequelize,Sequelize);
 db.promo =require("./promo.model.js")(sequelize,Sequelize);
@@ -64,7 +65,7 @@ db.utilisateur.hasOne(db.panier /* , {
   foreignKey: 'utilisateurIdUtilisateur'
 }*/);
 db.promo.belongsTo(db.evenement);
-db.promo.belongsTo(db.materiel)
+db.promo.belongsTo(db.materiel);
 
 
 module.exports = db;

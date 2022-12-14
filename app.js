@@ -40,9 +40,9 @@ app.use(cors ({
 db.sequelize
   .sync({forse:true})
   // .sync()
-  // .then(() => {
-  //   console.log("Synced db.");
-  // })
+   .then(() => {
+     console.log("Synced db.");
+   })
   .catch((err) => {
     console.log("Failed to sync db: " + err.message);
   });
@@ -129,7 +129,7 @@ const myDailyTask = async () => {
          },
        });
 
-       await db.reservations.destroy({
+       await db.reservation.destroy({
         where: {
          
           EvenementId: evenement.id,

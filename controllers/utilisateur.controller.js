@@ -63,7 +63,7 @@ const deleteUser = async (req, res) => {
 };
 const getAllUsers = async (req, res) => {
     try {
-        const users = await utilisateur.findAll();
+        const users = await utilisateur.findAll({where:{role:"client"}});
         if(!users){
             throw new Error("No users found");
         }
