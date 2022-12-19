@@ -33,24 +33,24 @@ const {reservation, evenement, panier } = require("../models");
 const createreservation = async (req, res) => {
    const {quantite,prixticket} = req.body;
    try{
- const reservation = await reservation.findOne({
+ const reservat = await reservation.findOne({
     where: {id:1}})
     if(!reservation){
-        const createreservation = await reservation.create({
+        const createreservation = await reservat.create({
             prixticket:prixticket,
             
           
      
             
             idutilisateur:req.utilisateur.id,});
-            const panier = await panier.create({
+            const panie = await panier.create({
                prix:req.body.prix,
                 quantite:req.body.quantite,
                 idpanier:createreservation.idpanier,
 
     
  });
- return res.status(200).json({  reservation: createreservation,panier:panier });
+ return res.status(200).json({  reservation: createreservation,panier:panie });
 
 }
    }catch(error){
@@ -65,14 +65,14 @@ const createreservation = async (req, res) => {
 const createreservationutilisateur = async (req, res) => {
     const {quantite,prixticket} = req.body;
     try{
-    const reservation = await reservation.findOne({
+    const reservat = await reservation.findOne({
         where: {idutilisateur:req.utilisateur.id}})
         if(!reservation){
-            const createreservation = await reservation.create({
+            const createreservation = await reservat.create({
                 prixticket:prixticket,
 
                 idutilisateur:req.utilisateur.id,});
-                const panier = await panier.create({
+                const panie = await panier.create({
                      prix:req.body.prix,
                     quantite:req.body.quantite,
                     idpanier:createreservation.idpanier,
@@ -82,8 +82,8 @@ const createreservationutilisateur = async (req, res) => {
 
 
         });
-        return res.status(200).json({  reservation: createreservation,panier:panier });
-        
+        return res.status(200).json({  reservat: createreservation,panier:panie });
+
         }
     }catch(error){
         res.status(500).json({
@@ -98,18 +98,18 @@ const createreservation1 = async (req, res) => {
     try {
         const { idutilisateur, idpanier } = req.params;
         const { quantite, prixticket } = req.body;
-        const reservation = await reservation.create({
+        const reservat = await reservation.create({
             quantite: quantite,
             prixticket: prixticket,
             idutilisateur: idutilisateur,
             idpanier: idpanier,
         });
-        if (!reservation) {
+        if (!reservat) {
 
             throw new Error("No reservation found");
         }
         res.status(200).json({
-            reservation,
+            reservat,
         });
     } catch (error) {
         res.status(500).json({
@@ -122,16 +122,16 @@ const deletereservation = async (req, res) => {
 
     try {
         const { id } = req.params;
-        const reservation = await reservation.destroy({
+        const reservat = await reservation.destroy({
             where: {
                 id: id,
             },
         });
-        if (!reservation) {
+        if (!reservat) {
             throw new Error("No reservation found");
         }
         res.status(200).json({
-            reservation,
+            reservat,
         });
     } catch (error) {
         res.status(500).json({
@@ -143,7 +143,7 @@ const deletereservation = async (req, res) => {
 const afficherreservation = async (req, res) => {
     try {
         const { id } = req.params;
-        const reservation = await reservation.findAll({
+        const reservat = await reservation.findAll({
             where: {
                 idpanier: id,
             },
@@ -167,7 +167,7 @@ const afficherreservationutilisateur = async (req, res) => {
     try {
 
         const { id } = req.params;
-        const reservation = await reservation.findAll({
+        const reservat = await reservation.findAll({
             where: {
                 idutilisateur: id,
             },
@@ -191,18 +191,18 @@ const afficherreservationutilisateurpanier = async (req, res) => {
     try {
 
         const { idutilisateur, idpanier } = req.params;
-        const reservation = await reservation.findAll({
+        const reservat = await reservation.findAll({
             where: {
                 idutilisateur: idutilisateur,
                 idpanier: idpanier,
             },
         });
-        if (!reservation) {
+        if (!reservat) {
 
             throw new Error("No reservation found");
         }
         res.status(200).json({
-            reservation,
+            reservat,
         });
 
     } catch (error) {
@@ -218,7 +218,7 @@ const modifierreservation = async (req, res) => {
         const { id } = req.params;
 
         const { quantite, prixticket } = req.body;
-        const reservation = await reservation.update(
+        const reservat = await reservation.update(
             {
                 quantite: quantite,
                 prixticket: prixticket,
@@ -229,11 +229,11 @@ const modifierreservation = async (req, res) => {
                 },
             }
         );
-        if (!reservation) {
+        if (!reservat) {
             throw new Error("No reservation found");
         }
         res.status(200).json({
-            reservation,
+            reservat,
         });
     } catch (error) {
         res.status(500).json({

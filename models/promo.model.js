@@ -5,6 +5,14 @@ module.exports=(Sequelize,DataTypes)=>{
             primaryKey: true,
             autoIncrement: true,
         },
+        materielIdMateriel: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        EvenementId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         date_expiration:{
             type:DataTypes.DATE,
             allowNull:false},
