@@ -464,8 +464,8 @@ const sendEmail = async (user, subject, text) => {
  <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
  <tr>
  <td class="email-masthead">
- <a href="http://localhost:4200/accueil" class="f-fallback email-masthead_name">
- Supportini
+ <a href="http://localhost:4200/front/Acceuil" class="f-fallback email-masthead_name">
+ SICCA PLAN
  </a>
  </td>
  </tr>
