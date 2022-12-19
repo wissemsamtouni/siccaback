@@ -27,7 +27,7 @@ const bodyparser = require('body-parser')
 var app = express();
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
-const stripe = require("stripe")("sk_test_51MDASDLtBuFc9f6IcbpcBmHigR1LiuffNI5tVBNKM7Nt8Gv0HUdPNMPK7YY8b6K5wniys87T6pRHOqfrB4jEi7W800vnmuDPbU");
+const stripe = require("stripe")("pk_test_51MDASDLtBuFc9f6ITsWNl0DjpGO9xM1WnUDpzpeP0e9Rv8IE35sjlFHQE9oCvGCxGFpAJyZdJV8xXxDNnamcJqfw00MDn3JGTy");
 
 
 app.use(cors ({
@@ -38,10 +38,12 @@ app.use(cors ({
 
 db.sequelize
   .sync({forse:true})
+
   // .sync()
    .then(() => {
      console.log("Synced db.");
    })
+
   .catch((err) => {
     console.log("Failed to sync db: " + err.message);
   });
@@ -113,36 +115,37 @@ app.use(function(err, req, res, next) {
   // render the error page
 res.json({error:err})
 });
-const myDailyTask = async () => {
-  // how recupere user by data and delete this user 
-   const users = await db.evenement.findAll();
-   users.forEach(async (evenement) => {
-     var someDate = new Date();
-     someDate.setDate(someDate.getDate());
-     var dateFormated = someDate.toISOString().substr(0,10);
-     if (evenement.datefin < dateFormated) {
-       await db.evenement.destroy({
-         where: {
+// const myDailyTask = async () => {
+//   // how recupere user by data and delete this user 
+//    const users = await db.evenement.findAll();
+//    users.forEach(async (evenement) => {
+//      var someDate = new Date();
+//      someDate.setDate(someDate.getDate());
+//      var dateFormated = someDate.toISOString().substr(0,10);
+//      if (evenement.datefin < dateFormated) {
+//        await db.evenement.destroy({
+//          where: {
           
-           id: evenement.id,
-         },
-       });
+//            id: evenement.id,
+//          },
+//        });
 
-       await db.reservation.destroy({
-        where: {
-         
-          EvenementId: evenement.id,
-        },
-      });
 
-     }
-   });
+//        await db.reservations.destroy({
+//         where: {
+
+//           EvenementId: evenement.id,
+//         },
+//       });
+
+//      }
+//    });
  
- };
+//  };
  
- shedule.scheduleJob('*/2 * * * * * ', () => { 
-   myDailyTask();
- });
+//  shedule.scheduleJob('*/2 * * * * * ', () => { 
+//    myDailyTask();
+//  });
  
 
 const server =http.createServer(app);
