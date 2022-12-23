@@ -37,7 +37,7 @@ app.use(cors ({
 }));
 
 db.sequelize
-  .sync({forse:true})
+  .sync()
 
   // .sync()
    .then(() => {
@@ -142,10 +142,30 @@ res.json({error:err})
 //    });
  
 //  };
- 
-//  shedule.scheduleJob('*/2 * * * * * ', () => { 
-//    myDailyTask();
-//  });
+const deleteproduitPromotion = async () => {
+    // how recupere user by data and delete this user
+    const pr = await db.promo.findAll();
+    pr.forEach(async (promo) => {
+        var someDate = new Date();
+        someDate.setDate(someDate.getDate());
+       console.log(someDate);
+       console.log('***********exp');
+       console.log(promo.date_expiration);
+
+        if ( promo.date_expiration < someDate) {
+            await db.promo.destroy({where: {id_promo: promo.id_promo}});
+            console.log('delete succed');
+
+
+
+        }
+    });
+};
+
+
+ shedule.scheduleJob('*/2 * * * * * ', () => {
+     deleteproduitPromotion();
+ });
  
 
 const server =http.createServer(app);

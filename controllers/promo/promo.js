@@ -32,17 +32,52 @@ const addPromotion = async (req, res, next) => {
 const getallpromo = async (req, res, next) => {
     try {
         const allpromo = await promo.findAll();
-        return res.status(200).json({promo: allpromo});
+        if(!allpromo){
+            res.status(404).json({error: "no promo found"});
+        }
+        return res.status(200).json({allpromo});
+    } catch (error) {
+        return res.status(500).json({error: error.message});
+    }
+}
+
+const checkeventinpromo = async (req, res, next) => {
+    try {
+        const {EvId} = req.params;
+        const checkpromo = await promo.findOne({where: {EvenementId: EvId}});
+        if (!checkpromo) {
+            res.status(404).json({error: "promo not found"});
+        }
+        else {
+            return res.status(200).json({promo: checkpromo});
+        }
+    } catch (error) {
+        return res.status(500).json({error: error.message});
+    }
+}
+const deletepromo = async (req, res, next) => {
+    try {
+        const {promoId} = req.params;
+        const checkpromo = await promo.findOne({where: {id_promo: promoId}});
+        if (!checkpromo) {
+            res.status(404).json({error: "promo not found"});
+        }
+        else {
+            await promo.destroy({where: {id_promo: promoId}});
+            return res.status(200).json("promo supprimé avec succes");
+        }
     } catch (error) {
         return res.status(500).json({error: error.message});
     }
 }
 
 
+
     module.exports = {
         addPromotion,
         getallpromo,
-
+        checkeventinpromo,
+        deletepromo
 
 
     };

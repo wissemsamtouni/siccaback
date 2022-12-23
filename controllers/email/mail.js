@@ -2,21 +2,21 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 
 const sendemail = async (req, res) => {
-    let email  = req.body;
+    let mail  = req.body;
 
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 25,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: "rabie.zouita@esprit.tn", // generated ethereal user
-            pass: "ba9arwechi13633840",
+            user: "wissem.samtouni@esprit.tn", // generated ethereal user
+            pass: "E07967443ws",
         },
     });
     const mailOptions = {
-        from: "rabie zouita", // sender address
-        to: email.email, // list of receivers
-        subject: "Wellcome from backend 👻", // Subject line
+        from: "SAMTOUNI WISSEM", // sender address
+        to: email.mail, // list of receivers
+        subject: "Bienvenu au siccaplan 👻", // Subject line
         html: `<h1>Hi ${email.nom}</h1><br>
     <h4>Thanks for joining us</h4>`, // html body
     };
