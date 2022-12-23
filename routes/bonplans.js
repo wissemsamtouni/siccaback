@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 router.get('/', getAllBonplans);
 router.get('/:bonplansId', getBonplans);
 router.post('/addbp',upload, createBonplans);
-router.put('/update/:bonplansId',updateBonplans);
+router.put('/update/:bonplansId',upload,updateBonplans);
 router.delete('/delete/:bonplansId', deleteBonplans);
 
 module.exports = router;

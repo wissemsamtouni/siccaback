@@ -1,6 +1,7 @@
 const {utilisateur} = require("../../models");
 const bcrypt = require('bcrypt');
 const express = require("express");
+const registrmail = require("../../utils/registrmail");
 const router = express.Router();
 const registerUser = async (req, res, next) => {
     try {
@@ -16,6 +17,8 @@ const registerUser = async (req, res, next) => {
 
         }
         const newUser = await utilisateur.create({nom, prenom, mail, login, mdp : hashedPassword, tel, role:'client', adresse  });
+        const userWithEmailExist = await utilisateur.findOne({where: {mail}})
+        await registrmail(userWithEmailExist,"mail de bienvenu  👋 ", newUser.nom);
         return res.status(201).json({user: newUser});
 
     } catch (error) {

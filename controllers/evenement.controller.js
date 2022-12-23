@@ -1,12 +1,10 @@
-const {evenement } = require("../models");
+const {evenement,promo } = require("../models");
 
 const ajouterevent = async (req, res, next) => {
-  const { discription, datedebut, datefin,nbrticket,prixticket } = req.body;
-  const {image} = req.file.path;
+  const {titre, discription, datedebut, datefin,nbrticket,prixticket } = req.body;
   console.log(req.body)
   try {
-    const ajouterevent = await evenement.create({ discription, datedebut, datefin,nbrticket,prixticket,image,
-    });
+    const ajouterevent = await evenement.create({titre ,discription, datedebut, datefin,nbrticket,prixticket,image:req.file.path });
    return res.status(201).json({
         ajouterevent,
     });
@@ -117,7 +115,11 @@ const deleteevent = async (req, res) => {
 
 const affichiertevent= async (req, res) => {
   try {
-    const event = await evenement.findAll();
+    const event = await evenement.findAll({
+      include:[{
+        model:promo
+      }]
+    });
     if(!event){
         throw new Error("No event found");
     }
@@ -182,6 +184,8 @@ const findbytitre = async (req , res , next ) => {
       })
 
 };
+
+
 
 
   

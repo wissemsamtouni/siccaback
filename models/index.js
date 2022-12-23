@@ -64,6 +64,7 @@ db.panier.belongsTo(db.utilisateur/* , {
 db.utilisateur.hasOne(db.panier /* , {
   foreignKey: 'utilisateurIdUtilisateur'
 }*/);
+db.evenement.hasOne(db.promo);
 db.promo.belongsTo(db.evenement);
 db.promo.belongsTo(db.materiel);
 

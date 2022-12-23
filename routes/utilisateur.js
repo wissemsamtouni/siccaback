@@ -5,6 +5,7 @@ const {login, user, logout} = require("../controllers/authentification/login");
 const{banUser}=require("../controllers/backoffice/tableuser");
 const {registerUser} =require("../controllers/authentification/registr")
 const {sendLink, passwordReset} = require("../controllers/authentification/forgetPasswordController");
+const {sendemail} = require("../controllers/email/mail");
 var router = express.Router();
 
 router.post('/createUser',createUser);
@@ -20,7 +21,8 @@ router.post('/logout',logout);
 router.put('/banner/:id',banUser);
 router.put('/resetpassword',changePassword);
 router.post ("/sendlink",sendLink);
-router.post('/password_reset/:userId/:token',passwordReset)
+router.post('/password_reset/:userId/:token',passwordReset);
+router.post('/sendmail',sendemail)
 
 
 
