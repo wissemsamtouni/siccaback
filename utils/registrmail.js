@@ -9,8 +9,8 @@ const registrmail = async (user, subject, text) => {
             port: 25,
             secure: true,
             auth: {
-                user:"wissem.samtouni@esprit.tn",
-                pass: "E07967443ws",
+                user:"ahmed.jebali@esprit.tn",
+                pass: "Ford@focus2",
             },
         });
         console.log(user.mail)
