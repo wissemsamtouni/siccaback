@@ -10,7 +10,7 @@ const sendemail = async (req, res) => {
         secure: false, // true for 465, false for other ports
         auth: {
             user: "wissem.samtouni@esprit.tn", // generated ethereal user
-            pass: "E07967443ws",
+            pass: "123456",
         },
     });
     const mailOptions = {
